@@ -1,0 +1,131 @@
+
+  <script defer>
+    function showStep(step) {
+      document.querySelectorAll(".step").forEach((el) => el.classList.add("hidden"));
+      document.getElementById(`step-${step}`).classList.remove("hidden");
+    }
+
+    function togglePassword() {
+      const input = document.getElementById("password");
+      input.type = input.type === "password" ? "text" : "password";
+    }
+
+    function copyAddress() {
+      if (document.getElementById("same_address").checked) {
+        document.getElementById("current_street").value = document.getElementById("perm_street").value;
+        document.getElementById("current_district").value = document.getElementById("perm_district").value;
+        document.getElementById("current_pincode").value = document.getElementById("perm_pincode").value;
+      }
+    }
+  </script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+{% include 'navbar.html' %}
+<div class="min-h-screen flex">
+  <!-- Left Panel -->
+  <div class="w-1/3 bg-blue-100 hidden md:flex flex-col items-center justify-center p-6" style="background-image: radial-gradient(#bde0fe 1px, transparent 1px); background-size: 20px 20px;">
+    <h2 class="text-2xl font-bold text-blue-800 mb-4">Add New User</h2>
+    <div class="grid grid-cols-2 gap-4">
+      <img src="https://via.placeholder.com/80" alt="logo" class="rounded-full shadow">
+      <img src="https://via.placeholder.com/80" alt="logo" class="rounded-full shadow">
+      <img src="https://via.placeholder.com/80" alt="logo" class="rounded-full shadow">
+      <img src="https://via.placeholder.com/80" alt="logo" class="rounded-full shadow">
+    </div>
+  </div>
+
+  <!-- Right Panel -->
+  <div class="w-full md:w-2/3 bg-white p-8">
+    <!-- Step 1 -->
+    <div id="step-1" class="step">
+      <h2 class="text-2xl font-bold mb-6">User Information</h2>
+      <form onsubmit="event.preventDefault(); showStep(2)" class="space-y-4">
+        <input type="text" placeholder="Name" class="w-full border px-4 py-2 rounded" required>
+        <input type="email" placeholder="Email" class="w-full border px-4 py-2 rounded" required>
+        <input type="text" placeholder="Phone" class="w-full border px-4 py-2 rounded" required>
+        <input type="text" placeholder="User ID" class="w-full border px-4 py-2 rounded" required>
+        <input type="password" id="password" placeholder="Password" class="w-full border px-4 py-2 rounded" required>
+        <label class="inline-flex items-center">
+          <input type="checkbox" onclick="togglePassword()" class="mr-2">
+          Show Password
+        </label>
+        <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">Next</button>
+      </form>
+    </div>
+
+    <!-- Step 2 -->
+    <div id="step-2" class="step hidden">
+      <h2 class="text-2xl font-bold mb-2">Address</h2>
+      <h4 class="font-semibold text-gray-700">Permanent Address</h4>
+      <form onsubmit="event.preventDefault(); showStep(3)" class="space-y-4 mt-2">
+        <input type="text" id="perm_street" placeholder="Street" class="w-full border px-4 py-2 rounded" required>
+        <input type="text" id="perm_district" placeholder="District" class="w-full border px-4 py-2 rounded" required>
+        <input type="text" id="perm_pincode" placeholder="Pincode" class="w-full border px-4 py-2 rounded" required>
+
+        <label class="inline-flex items-center mt-2">
+          <input type="checkbox" id="same_address" onclick="copyAddress()" class="mr-2">
+          Same as Permanent Address
+        </label>
+
+        <h4 class="font-semibold text-gray-700 mt-4">Current Address</h4>
+        <input type="text" id="current_street" placeholder="Street" class="w-full border px-4 py-2 rounded" required>
+        <input type="text" id="current_district" placeholder="District" class="w-full border px-4 py-2 rounded" required>
+        <input type="text" id="current_pincode" placeholder="Pincode" class="w-full border px-4 py-2 rounded" required>
+
+        <div class="flex justify-between">
+          <button type="button" onclick="showStep(1)" class="bg-gray-300 px-4 py-2 rounded">Back</button>
+          <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">Next</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Step 3 -->
+    <div id="step-3" class="step hidden">
+      <h2 class="text-2xl font-bold mb-6">Permissions</h2>
+      <form onsubmit="event.preventDefault(); showStep(4)" class="space-y-4">
+        <label class="block text-sm font-medium text-gray-700">Position</label>
+        <select class="w-full border px-4 py-2 rounded">
+          <option>Admin</option>
+          <option>Manager</option>
+          <option>Staff</option>
+          <option>Driver</option>
+        </select>
+
+        <div class="grid grid-cols-2 gap-4">
+          <label><input type="checkbox" class="mr-2"> Add Vehicle</label>
+          <label><input type="checkbox" class="mr-2"> Rent Out</label>
+          <label><input type="checkbox" class="mr-2"> View Reports</label>
+          <label><input type="checkbox" class="mr-2"> Manage Users</label>
+          <label><input type="checkbox" class="mr-2"> Maintenance</label>
+          <label><input type="checkbox" class="mr-2"> Insurance</label>
+          <label><input type="checkbox" class="mr-2"> Accounting</label>
+          <label><input type="checkbox" class="mr-2"> Branch Access</label>
+        </div>
+
+        <div class="flex justify-between">
+          <button type="button" onclick="showStep(2)" class="bg-gray-300 px-4 py-2 rounded">Back</button>
+          <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">Next</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Step 4 -->
+    <div id="step-4" class="step hidden">
+      <h2 class="text-2xl font-bold mb-2">Accounts</h2>
+      <form onsubmit="event.preventDefault(); alert('Form Submitted! ✅')" class="space-y-4">
+        <input type="number" placeholder="Salary" class="w-full border px-4 py-2 rounded" required>
+
+        <h4 class="font-semibold text-gray-700">Bank Details</h4>
+        <input type="text" placeholder="Account Number" class="w-full border px-4 py-2 rounded" required>
+        <input type="text" placeholder="Bank Name" class="w-full border px-4 py-2 rounded" required>
+        <input type="text" placeholder="IFSC Code" class="w-full border px-4 py-2 rounded" required>
+
+        <div class="flex justify-between">
+          <button type="button" onclick="showStep(3)" class="bg-gray-300 px-4 py-2 rounded">Back</button>
+          <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

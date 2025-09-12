@@ -1,0 +1,91 @@
+
+  <title>Customer Details Form</title>
+  {%include 'navbar.html'%}
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+<div class="min-h-screen flex items-center justify-center p-6">
+  <div class="bg-white w-full max-w-5xl flex flex-col md:flex-row shadow-xl rounded-xl overflow-hidden">
+
+    <!-- Left Image Section -->
+    <div class="md:w-1/2 flex items-center justify-center bg-blue-100 p-8">
+      <img src="https://via.placeholder.com/220x220.png?text=Customer" alt="Customer" class="rounded-full shadow-lg border-4 border-white">
+    </div>
+
+    <!-- Right Form Section -->
+    <div class="md:w-1/2 p-8">
+      <h2 class="text-xl font-bold text-blue-700 mb-6 border-b pb-2">Customer Details</h2>
+
+      <form class="space-y-4" onsubmit="event.preventDefault(); alert('Customer Saved ✅');">
+
+        <!-- Customer ID -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Customer ID</label>
+          <input type="text" placeholder="CUS123" class="w-full border px-4 py-2 rounded" required>
+        </div>
+
+        <!-- First & Last Name -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+            <input type="text" placeholder="John" class="w-full border px-4 py-2 rounded" required>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+            <input type="text" placeholder="Doe" class="w-full border px-4 py-2 rounded" required>
+          </div>
+        </div>
+
+        <!-- Email & Phone -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <input type="email" placeholder="john@example.com" class="w-full border px-4 py-2 rounded" required>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+            <input type="tel" placeholder="9876543210" class="w-full border px-4 py-2 rounded" required>
+          </div>
+        </div>
+
+        <!-- Address -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Address</label>
+          <textarea rows="2" placeholder="Street, City, Pincode" class="w-full border px-4 py-2 rounded" required></textarea>
+        </div>
+
+        <!-- Document Type & Number -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Document Type</label>
+            <select class="w-full border px-4 py-2 rounded" required>
+              <option value="">-- Select --</option>
+              <option>Aadhar</option>
+              <option>PAN</option>
+              <option>Driving License</option>
+              <option>Passport</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Document Number</label>
+            <input type="text" placeholder="Enter Doc No." class="w-full border px-4 py-2 rounded" required>
+          </div>
+        </div>
+
+        <!-- Upload Document Image -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Upload Document</label>
+          <input type="file" accept="image/*,.pdf" class="w-full border px-4 py-2 rounded bg-gray-50" required>
+        </div>
+
+        <!-- Save Button -->
+        <div class="pt-4">
+          <button type="submit" class="bg-blue-600 text-white py-2 px-6 rounded w-full hover:bg-blue-700">
+            Save
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+

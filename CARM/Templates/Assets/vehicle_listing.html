@@ -1,0 +1,56 @@
+  <title>Asset Linking Form</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+{% include 'navbar.html' %}
+<div class="min-h-screen flex items-center justify-center p-6">
+  <div class="bg-white shadow rounded-lg w-full max-w-4xl flex flex-col md:flex-row">
+
+    <!-- Left Side Image -->
+    <div class="md:w-1/2 p-6 flex items-center justify-center bg-blue-100">
+      <img src="https://via.placeholder.com/200x200?text=Asset" alt="Asset Image" class="rounded shadow-lg">
+    </div>
+
+    <!-- Right Side Form -->
+    <div class="md:w-1/2 p-8">
+      <h2 class="text-xl font-bold text-gray-800 mb-6">Link Asset Details</h2>
+      
+      <form class="space-y-5" onsubmit="event.preventDefault(); alert('Asset Linked ✅');">
+        
+        <!-- Asset Code Dropdown -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Asset Code</label>
+          <select required class="w-full border px-4 py-2 rounded">
+            <option value="">-- Select Asset Code --</option>
+            <option>AST001</option>
+            <option>AST002</option>
+            <option>AST003</option>
+          </select>
+        </div>
+
+        <!-- Added to Listing Checkbox -->
+        <div class="flex items-center space-x-2">
+          <input type="checkbox" id="listing" class="form-checkbox text-blue-600">
+          <label for="listing" class="text-sm font-medium text-gray-700">Added to Listing</label>
+        </div>
+
+        <!-- Chassis Number -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Chassis Number</label>
+          <input type="text" placeholder="Enter Chassis No." required class="w-full border px-4 py-2 rounded">
+        </div>
+
+        <!-- Engine Number -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Engine Number</label>
+          <input type="text" placeholder="Enter Engine No." required class="w-full border px-4 py-2 rounded">
+        </div>
+
+        <!-- Submit Button -->
+        <div class="pt-4">
+          <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">Save</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+

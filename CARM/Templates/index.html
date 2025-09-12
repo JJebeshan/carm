@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Car Sales & Renting System</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <!-- Navbar -->
+  {% include 'navbar.html' %}
+
+  <!-- Hero Section -->
+  <section class="text-center py-16 bg-gradient-to-br from-blue-100 to-blue-300">
+    <h2 class="text-4xl font-bold mb-4">Welcome to AKshana Car Rental</h2>
+    <p class="text-lg mb-6">A complete solution for managing car sales, rentals, maintenance, and insurance.</p>
+    <a href="#" class="bg-blue-600 text-white px-6 py-3 rounded shadow hover:bg-blue-700">Get Started</a>
+  </section>
+
+  <!-- Car Models Section -->
+ <section class="py-16 bg-white">
+  <div class="max-w-7xl mx-auto px-4">
+    <h3 class="text-2xl font-bold text-center mb-10">Popular Car Models</h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+      <div class="bg-blue-50 rounded-xl shadow overflow-hidden">
+        <img src="https://via.placeholder.com/400x200?text=Car+Image" alt="Car Image" class="w-full h-48 object-cover">
+        <div class="p-6">
+          <h4 class="text-xl font-semibold mb-2">Swift Dzire</h4>
+          <p class="text-gray-600 mb-1">Category: Sedan</p>
+          <p class="text-green-600 font-bold">Rent Price: ₹250/day</p>
+        </div>
+      </div>
+
+      <div class="bg-blue-50 rounded-xl shadow overflow-hidden">
+        <img src="https://via.placeholder.com/400x200?text=Car+Image" alt="Car Image" class="w-full h-48 object-cover">
+        <div class="p-6">
+          <h4 class="text-xl font-semibold mb-2">Ertiga</h4>
+          <p class="text-gray-600 mb-1">Category: MUV</p>
+          <p class="text-green-600 font-bold">Rent Price: ₹350/day</p>
+        </div>
+      </div>
+
+      <div class="bg-blue-50 rounded-xl shadow overflow-hidden">
+        <img src="https://via.placeholder.com/400x200?text=Car+Image" alt="Car Image" class="w-full h-48 object-cover">
+        <div class="p-6">
+          <h4 class="text-xl font-semibold mb-2">Creta</h4>
+          <p class="text-gray-600 mb-1">Category: SUV</p>
+          <p class="text-green-600 font-bold">Rent Price: ₹500/day</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+  <!-- Customer Reviews Section -->
+  <section class="py-16 bg-blue-50">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <h3 class="text-2xl font-bold mb-10">Customer Reviews</h3>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-white p-6 rounded shadow">
+          <p class="italic text-gray-700 mb-2">“Excellent service and clean cars. Highly recommend!”</p>
+          <p class="font-semibold">– Ravi K.</p>
+        </div>
+        <div class="bg-white p-6 rounded shadow">
+          <p class="italic text-gray-700 mb-2">“Affordable and easy rental process.”</p>
+          <p class="font-semibold">– Sneha M.</p>
+        </div>
+        <div class="bg-white p-6 rounded shadow">
+          <p class="italic text-gray-700 mb-2">“The support team was great during my long-term rental.”</p>
+          <p class="font-semibold">– Ajay P.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Clients/Partners Section -->
+  <section class="py-16 bg-white">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <h3 class="text-2xl font-bold mb-10">Trusted by</h3>
+      <div class="flex flex-wrap justify-center gap-8 items-center">
+        <img src="https://via.placeholder.com/120x40?text=Client+1" alt="Client 1" class="h-10 grayscale" />
+        <img src="https://via.placeholder.com/120x40?text=Client+2" alt="Client 2" class="h-10 grayscale" />
+        <img src="https://via.placeholder.com/120x40?text=Client+3" alt="Client 3" class="h-10 grayscale" />
+        <img src="https://via.placeholder.com/120x40?text=Client+4" alt="Client 4" class="h-10 grayscale" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-gray-200 py-8">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+      <p>&copy; 2025 CarRentalPro. All rights reserved.</p>
+      <div class="flex gap-4 mt-4 md:mt-0">
+        <a href="#" class="hover:text-white">Privacy Policy</a>
+        <a href="#" class="hover:text-white">Terms of Service</a>
+        <a href="#" class="hover:text-white">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

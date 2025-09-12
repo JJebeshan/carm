@@ -1,0 +1,96 @@
+
+  <title>Asset Status Form</title>
+  <script>
+    function handleReasonChange(select) {
+      const saleFields = document.getElementById('sale-fields');
+      saleFields.classList.toggle('hidden', select.value !== 'Sale');
+    }
+  </script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+{% include 'navbar.html' %}
+<div class="min-h-screen flex items-center justify-center p-6">
+  <div class="bg-white w-full max-w-5xl flex flex-col md:flex-row shadow-lg rounded-lg overflow-hidden">
+
+    <!-- Left Image Section -->
+    <div class="md:w-1/2 bg-blue-100 flex items-center justify-center p-6">
+      <img src="https://via.placeholder.com/250x250?text=Asset" alt="Asset Image" class="rounded shadow">
+    </div>
+
+    <!-- Right Form Section -->
+    <div class="md:w-1/2 p-8 flex items-center justify-center">
+      <div class="w-full bg-white rounded-3xl border border-gray-300 shadow-md p-6">
+        <h2 class="text-xl font-bold text-center text-gray-700 mb-6">Asset Status Update</h2>
+
+        <form onsubmit="event.preventDefault(); alert('Form Saved ✅');" class="space-y-4">
+
+          <!-- Asset Code -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Asset Code</label>
+            <select required class="w-full border px-4 py-2 rounded">
+              <option value="">-- Select Asset Code --</option>
+              <option>AST001</option>
+              <option>AST002</option>
+              <option>AST003</option>
+            </select>
+          </div>
+
+          <!-- Reason -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Reason</label>
+            <select onchange="handleReasonChange(this)" required class="w-full border px-4 py-2 rounded">
+              <option value="">-- Select Reason --</option>
+              <option>Sale</option>
+              <option>Transfer</option>
+              <option>Expired</option>
+              <option>Maintenance Closed</option>
+            </select>
+          </div>
+
+          <!-- Chassis Number -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Chassis Number</label>
+            <input type="text" placeholder="Enter Chassis Number" required class="w-full border px-4 py-2 rounded">
+          </div>
+
+          <!-- Engine Number -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Engine Number</label>
+            <input type="text" placeholder="Enter Engine Number" required class="w-full border px-4 py-2 rounded">
+          </div>
+
+          <!-- Sale Fields (Conditional) -->
+          <div id="sale-fields" class="hidden space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Sale Amount (INR)</label>
+              <input type="number" placeholder="e.g., 500000" class="w-full border px-4 py-2 rounded">
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Salesperson Name</label>
+              <input type="text" placeholder="John Doe" class="w-full border px-4 py-2 rounded">
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Salesperson Email</label>
+              <input type="email" placeholder="john@example.com" class="w-full border px-4 py-2 rounded">
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Salesperson Phone</label>
+              <input type="tel" placeholder="9876543210" class="w-full border px-4 py-2 rounded">
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="pt-2">
+            <button type="submit" class="bg-blue-600 text-white w-full py-2 rounded hover:bg-blue-700">
+              Save
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
