@@ -10,7 +10,7 @@
 
   <!-- Navbar -->
   {% include 'navbar.html' %}
-
+{% load static %}
   <!-- Hero Section -->
   <section class="text-center py-16 bg-gradient-to-br from-blue-100 to-blue-300">
     <h2 class="text-4xl font-bold mb-4">Welcome to AKshana Car Rental</h2>
@@ -23,15 +23,20 @@
   <div class="max-w-7xl mx-auto px-4">
     <h3 class="text-2xl font-bold text-center mb-10">Popular Car Models</h3>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-
+      {% for i in vehicles %}
       <div class="bg-blue-50 rounded-xl shadow overflow-hidden">
-        <img src="https://via.placeholder.com/400x200?text=Car+Image" alt="Car Image" class="w-full h-48 object-cover">
+        {% if i.Front_image %}
+        <img src="{{ i.Front_image.url }}" alt="Front Image" class="w-full h-48 object-cover">
+      {% else %}
+        <img src="https://via.placeholder.com/400x200?text=No+Front+Image" class="w-full h-48 object-cover">
+      {% endif %}
         <div class="p-6">
-          <h4 class="text-xl font-semibold mb-2">Swift Dzire</h4>
-          <p class="text-gray-600 mb-1">Category: Sedan</p>
-          <p class="text-green-600 font-bold">Rent Price: ₹250/day</p>
+          <h4 class="text-xl font-semibold mb-2">{{i.model}}</h4>
+          <p class="text-gray-600 mb-1">Category: {{i.Vehicle_type}}</p>
+          <p class="text-green-600 font-bold">Rent Price: {{i.Rent}}/day</p>
         </div>
       </div>
+      {% endfor %}
 
       <div class="bg-blue-50 rounded-xl shadow overflow-hidden">
         <img src="https://via.placeholder.com/400x200?text=Car+Image" alt="Car Image" class="w-full h-48 object-cover">
@@ -45,7 +50,7 @@
       <div class="bg-blue-50 rounded-xl shadow overflow-hidden">
         <img src="https://via.placeholder.com/400x200?text=Car+Image" alt="Car Image" class="w-full h-48 object-cover">
         <div class="p-6">
-          <h4 class="text-xl font-semibold mb-2">Creta</h4>
+          <h4 class="text-xl font-semibold mb-2">{{ vehicles|length }}</h4>
           <p class="text-gray-600 mb-1">Category: SUV</p>
           <p class="text-green-600 font-bold">Rent Price: ₹500/day</p>
         </div>

@@ -24,47 +24,46 @@
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
     <div>
       <label class="block text-sm font-medium text-gray-700">Date</label>
-      <input type="date" id="todayDate" class="w-full border px-4 py-2 rounded" required>
+      <input name= "docdate"type="date" id="todayDate" class="w-full border px-4 py-2 rounded" required>
     </div>
     <div>
       <label class="block text-sm font-medium text-gray-700">Vehicle Code</label>
-      <select class="w-full border px-4 py-2 rounded" required>
+      <select class="w-full border px-4 py-2 rounded" name="Plate_no" required>
         <option>-- Select --</option>
-        <option>AST001</option>
-        <option>AST002</option>
+        {% for vehicles in vehicle %}
+        <option value="{{ vehicles.Plate_no}}" >{{ vehicles.Ast_code }} - {{ vehicles.Plate_no }}</option>
+        {% endfor %}
       </select>
     </div>
     <div>
       <label class="block text-sm font-medium text-gray-700">Car Color</label>
-      <input type="text" class="w-full border px-4 py-2 rounded" placeholder="e.g. Red" required>
+      <input type="text" name="color" class="w-full border px-4 py-2 rounded bg-gray-100 text-gray-600 cursor-not-allowed" placeholder="e.g. Red" required disabled>
     </div>
     <div>
-      <label class="block text-sm font-medium text-gray-700">Chassis Number</label>
-      <input type="text" class="w-full border px-4 py-2 rounded" required>
+      <label class="block text-sm font-medium text-gray-700">Brand</label>
+      <input type="text" name="brand" class="w-full border px-4 py-2 rounded bg-gray-100 text-gray-600 cursor-not-allowed" required>
     </div>
     <div>
-      <label class="block text-sm font-medium text-gray-700">Engine Number</label>
-      <input type="text" class="w-full border px-4 py-2 rounded" required>
+      <label class="block text-sm font-medium text-gray-700">Model</label>
+      <input type="text" name="model" class="w-full border px-4 py-2 rounded bg-gray-100 text-gray-600 cursor-not-allowed" required>
     </div>
     <div>
       <label class="block text-sm font-medium text-gray-700">Meter Out</label>
-      <input type="number" class="w-full border px-4 py-2 rounded" placeholder="e.g. 12234" required>
+      <input type="number" name="meeter" class="w-full border px-4 py-2 rounded bg-gray-100 text-gray-600 cursor-not-allowed" placeholder="e.g. 12234" required>
     </div>
   </div>
 
   <hr class="my-6 border-t-2 border-gray-300">
 
-  <!-- Pricing Details -->
- <!-- Pricing Details -->
 <h3 class="text-lg font-semibold text-blue-700 mb-2">Pricing Details</h3>
 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
   <div>
     <label class="block text-sm font-medium text-gray-700">Rent/Day (₹)</label>
-    <input type="number" class="w-full border px-4 py-2 rounded" required>
+    <input type="number" name="Rent" class="w-full border px-4 py-2 rounded" required>
   </div>
   <div>
     <label class="block text-sm font-medium text-gray-700">Allowed Km</label>
-    <input type="number" class="w-full border px-4 py-2 rounded" required>
+    <input type="number" name= "Allowed" class="w-full border px-4 py-2 rounded" required>
   </div>
   <div>
     <label class="block text-sm font-medium text-gray-700">Addl. Km (₹/km)</label>
@@ -80,25 +79,43 @@
   </div>
   <div>
     <label class="block text-sm font-medium text-gray-700">Return Date</label>
-    <input type="date" class="w-full border px-4 py-2 rounded">
+    <input type="date" class="w-full border px-4 py-2 rounded" name="return_date">
   </div>
 </div>
 
   <hr class="my-6 border-t-2 border-gray-300">
 
   <!-- Customer Details -->
-  <h3 class="text-lg font-semibold text-blue-700 mb-2">Customer Details</h3>
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+  <div class="bg-white p-6 rounded-xl shadow-lg">
+  <!-- Radio Buttons -->
+  <div class="flex space-x-6 mb-6">
+    <label class="flex items-center space-x-2">
+      <input type="radio" name="customerType" value="existing" checked
+        class="text-blue-600 focus:ring-blue-500">
+      <span class="text-gray-700 font-medium">Existing</span>
+    </label>
+    <label class="flex items-center space-x-2">
+      <input type="radio" name="customerType" value="new"
+        class="text-blue-600 focus:ring-blue-500">
+      <span class="text-gray-700 font-medium">New</span>
+    </label>
+  </div>
+
+  <h3 class="text-lg font-semibold text-blue-700 mb-4">Customer Details</h3>
+
+  <!-- Existing Customer -->
+  <div id="existingSection" class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <div>
       <label class="block text-sm font-medium text-gray-700">Customer ID</label>
-      <select class="w-full border px-4 py-2 rounded" required>
+      <select class="w-full border px-4 py-2 rounded">
         <option>-- Select --</option>
         <option>CUST001</option>
         <option>CUST002</option>
       </select>
     </div>
     <div class="flex items-center justify-center mt-2 md:mt-0">
-      <img src="https://via.placeholder.com/100" alt="Customer" class="rounded-full shadow border">
+      <img src="https://via.placeholder.com/100" alt="Customer"
+        class="rounded-full shadow border">
     </div>
     <div>
       <label class="block text-sm font-medium text-gray-700">Customer Name</label>
@@ -110,11 +127,66 @@
     </div>
     <div class="md:col-span-2">
       <label class="block text-sm font-medium text-gray-700">Phone</label>
-      <input type="tel" class="w-full border px-4 py-2 rounded">
+      <div class="flex space-x-2">
+        <input type="tel" class="flex-1 border px-4 py-2 rounded">
+        <button id="sendOtpBtn" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+          Send OTP
+        </button>
+      </div>
+      <!-- OTP Input + Verify -->
+      <div id="otpSection" class="mt-3 hidden">
+        <input id="otpInput" type="text" maxlength="6"
+          class="w-full border px-4 py-2 rounded mb-2" placeholder="Enter OTP">
+        <button id="verifyBtn"
+          class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-full">
+          Verify
+        </button>
+      </div>
     </div>
   </div>
 
-  <hr class="my-6 border-t-2 border-gray-300">
+  <!-- New Customer -->
+  <div id="newSection" class="grid grid-cols-1 md:grid-cols-2 gap-4 hidden">
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Customer ID</label>
+      <input type="text" class="w-full border px-4 py-2 rounded bg-gray-100"
+        value="Auto Generated" readonly>
+    </div>
+    <div class="flex items-center justify-center mt-2 md:mt-0">
+      <img src="https://via.placeholder.com/100" alt="Customer"
+        class="rounded-full shadow border">
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Customer Name</label>
+      <input type="text" class="w-full border px-4 py-2 rounded">
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Email</label>
+      <input type="email" class="w-full border px-4 py-2 rounded">
+    </div>
+    <div class="md:col-span-2">
+      <label class="block text-sm font-medium text-gray-700">Phone</label>
+      <div class="flex space-x-2">
+        <input type="tel" class="flex-1 border px-4 py-2 rounded">
+        <button id="sendOtpBtnNew" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+          Send OTP
+        </button>
+      </div>
+      <!-- OTP Input + Verify -->
+      <div id="otpSectionNew" class="mt-3 hidden">
+        <input id="otpInputNew" type="text" maxlength="6"
+          class="w-full border px-4 py-2 rounded mb-2" placeholder="Enter OTP">
+        <button id="verifyBtnNew"
+          class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-full">
+          Verify
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 
   <!-- Invoice Details -->
   <h3 class="text-lg font-semibold text-blue-700 mb-2">Invoice Details</h3>
@@ -186,5 +258,93 @@
 
 </div>
 
-</body>
-</html>
+<script>
+  // Toggle Existing/New
+  const existingSection = document.getElementById("existingSection");
+  const newSection = document.getElementById("newSection");
+  document.querySelectorAll("input[name='customerType']").forEach(radio => {
+    radio.addEventListener("change", (e) => {
+      if (e.target.value === "existing") {
+        existingSection.classList.remove("hidden");
+        newSection.classList.add("hidden");
+      } else {
+        newSection.classList.remove("hidden");
+        existingSection.classList.add("hidden");
+      }
+    });
+  });
+
+  // OTP Logic (Reusable)
+  function setupOtpFlow(sendBtnId, otpSectionId, otpInputId, verifyBtnId) {
+    const sendBtn = document.getElementById(sendBtnId);
+    const otpSection = document.getElementById(otpSectionId);
+    const otpInput = document.getElementById(otpInputId);
+    const verifyBtn = document.getElementById(verifyBtnId);
+
+    sendBtn.addEventListener("click", () => {
+      otpSection.classList.remove("hidden");
+      otpInput.removeAttribute("readonly");
+      otpInput.value = "";
+      verifyBtn.textContent = "Verify";
+      verifyBtn.classList.remove("bg-gray-400");
+      verifyBtn.classList.add("bg-green-600", "hover:bg-green-700");
+    });
+
+    verifyBtn.addEventListener("click", () => {
+      // Simulate OTP check (set correct OTP as 123456 for demo)
+      if (otpInput.value === "123456") {
+        otpInput.setAttribute("readonly", true);
+        verifyBtn.textContent = "Verified ✓";
+        verifyBtn.classList.remove("bg-green-600", "hover:bg-green-700");
+        verifyBtn.classList.add("bg-gray-400");
+      } else {
+        alert("Invalid OTP. Try again.");
+      }
+    });
+  }
+
+  // Setup for both sections
+  setupOtpFlow("sendOtpBtn", "otpSection", "otpInput", "verifyBtn");
+  setupOtpFlow("sendOtpBtnNew", "otpSectionNew", "otpInputNew", "verifyBtnNew");
+
+  document.addEventListener("DOMContentLoaded", function () {
+  const plateSelect = document.querySelector("select[name='Plate_no']");
+  const colorInput = document.querySelector("input[name='color']");
+  const brandInput = document.querySelector("input[name='brand']");
+  const modelInput = document.querySelector("input[name='model']");
+  const meterInput = document.querySelector("input[name='meeter']");
+  const rentInput = document.querySelector("input[name='Rent']");
+  const allowedInput = document.querySelector("input[name='Allowed']");
+
+  plateSelect.addEventListener("change", function () {
+    const plateNo = this.value;
+
+    if (plateNo) {
+      fetch(`get_vehicle/?Plate_no=${encodeURIComponent(plateNo)}`)
+        .then(response => response.json())
+        .then(data => {
+          colorInput.value = data.color || "";
+          brandInput.value = data.brand || "";
+          modelInput.value = data.model || "";
+          meterInput.value = data.meeter || "";
+          rentInput.value = data.Rent || "";
+          if (allowedInput) {
+            allowedInput.value = data.Allowed || "";
+          }
+        })
+        .catch(error => console.error("Error fetching vehicle data:", error));
+    } else {
+      colorInput.value = "";
+      brandInput.value = "";
+      modelInput.value = "";
+      meterInput.value = "";
+      rentInput.value = "";
+      if (allowedInput) {
+        allowedInput.value = "";
+      }
+    }
+  });
+});
+
+document.captureEvents
+</script>

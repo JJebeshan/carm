@@ -1,5 +1,4 @@
-
-  <title>Asset Declaration</title>
+<title>Asset Declaration</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
 {% include 'navbar.html'%}
 
@@ -15,73 +14,201 @@
   <!-- Right Form Section -->
   <div class="w-full md:w-2/3 bg-white p-8 shadow-lg rounded">
     <h2 class="text-2xl font-bold text-center mb-6">Asset Declaration Form</h2>
+    <!-- Success Message -->
+<div id="successMessage" class="hidden mb-4 p-4 rounded bg-green-100 text-green-700 text-center shadow">
+  ✅ Asset declared successfully!
+</div>
 
-    <form class="space-y-5">
 
-      <!-- Asset Code -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Asset Code</label>
-        <input type="text" name="asset_code" placeholder="AST001" required class="w-full border px-4 py-2 rounded"/>
-      </div>
+    <form id="assetForm" method="post" enctype="multipart/form-data" 
+      action="{% url 'declaration' %}" class="space-y-5">
+  {% csrf_token %}
 
-      <!-- Asset Type -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Asset Type</label>
-        <select name="asset_type" required class="w-full border px-4 py-2 rounded">
-          <option value="">-- Select Type --</option>
-          <option>Vehicle</option>
-          <option>Machinery</option>
-          <option>Electronics</option>
-          <option>Furniture</option>
-          <option>Other</option>
-        </select>
-      </div>
+  <div class="relative">
+  {{ form.Ast_code.label_tag }}
+  {{ form.Ast_code }}
+</div>
 
-      <!-- Brand -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Brand</label>
-        <input type="text" name="brand" placeholder="Tata, HP, Sony..." required class="w-full border px-4 py-2 rounded"/>
-      </div>
+<div>
+  {{ form.Ast_Type.label_tag }}
+  {{ form.Ast_Type }}
+</div>
 
-      <!-- Model -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Model</label>
-        <input type="text" name="model" placeholder="Model X, Swift Dzire..." required class="w-full border px-4 py-2 rounded"/>
-      </div>
+<!-- Normal Brand input (hidden if Vehicle) -->
+<div id="brand-container">
+  {{ form.Ast_Brand.label_tag }}
+  {{ form.Ast_Brand }}
+</div>
 
-      <!-- Rentable -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Rentable</label>
-        <div class="flex gap-6 mt-2">
-          <label class="inline-flex items-center">
-            <input type="radio" name="rentable" value="Yes" class="form-radio text-blue-600" required>
-            <span class="ml-2">Yes</span>
-          </label>
-          <label class="inline-flex items-center">
-            <input type="radio" name="rentable" value="No" class="form-radio text-red-600">
-            <span class="ml-2">No</span>
-          </label>
-        </div>
-      </div>
+<!-- Vehicle Brand dropdown -->
+<div id="vehicle-brand-container" class="hidden">
+  <label class="block text-sm font-medium text-gray-700 mb-1">Brand</label>
+  <select id="vehicleBrand" class="w-full border px-4 py-2 rounded">
+    <option value="">-- Select Brand --</option>
+  </select>
+</div>
 
-      <!-- Purchase Amount -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Purchase Amount (INR)</label>
-        <input type="number" name="purchase_amount" placeholder="e.g. 500000" required class="w-full border px-4 py-2 rounded"/>
-      </div>
+<!-- Normal Model input (hidden if Vehicle) -->
+<div id="model-container">
+  {{ form.Ast_Model.label_tag }}
+  {{ form.Ast_Model }}
+</div>
 
-      <!-- Document Upload -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Upload Document</label>
-        <input type="file" name="document" accept=".pdf,.doc,.jpg,.png" required class="w-full border px-4 py-2 rounded bg-gray-50"/>
-      </div>
+<!-- Vehicle Model dropdown -->
+<div id="vehicle-model-container" class="hidden">
+  <label class="block text-sm font-medium text-gray-700 mb-1">Model</label>
+  <select id="vehicleModel" class="w-full border px-4 py-2 rounded">
+    <option value="">-- Select Model --</option>
+  </select>
+</div>
 
-      <!-- Submit -->
-      <div class="text-center">
-        <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">Declare Asset</button>
-      </div>
-
-    </form>
+<div>
+  {{ form.Ast_Isrent.label_tag }}
+  <div class="flex gap-6 mt-2">
+    {% for radio in form.Ast_Isrent %}
+      <label class="inline-flex items-center">
+        {{ radio.tag }} <span class="ml-2">{{ radio.choice_label }}</span>
+      </label>
+    {% endfor %}
   </div>
 </div>
+
+
+  <div>
+    {{ form.Ast_Price.label_tag }}
+    {{ form.Ast_Price }}
+  </div>
+
+  <div>
+    {{ form.Ast_document.label_tag }}
+    {{ form.Ast_document }}
+  </div>
+
+  <div class="text-center">
+    <button type="submit" id="button"
+            class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+      Declare Asset
+    </button>
+  </div>
+</form>
+
+  </div>
+</div>
+
+<script>
+
+   const vehicleData = [
+    { brand: "Maruti Suzuki", models: ["Swift", "Alto", "Baleno", "Ertiga", "Brezza"] },
+    { brand: "Hyundai", models: ["Creta", "i20", "Alcazar", "Verna"] },
+    { brand: "Tata Motors", models: ["Nexon", "Harrier", "Tiago", "Punch"] },
+    { brand: "Mahindra", models: ["Thar", "XUV700", "Scorpio", "Bolero"] },
+    {brand: "Kia",models: ["Sonet", "Seltos", "Carens", "Carnival","EV9","Syros","Carens Clavis","Carens Clavis EV" ]},
+    {brand: "Jaguar",models: ["F‑Pace","XF","I‑Pace","F‑Type","XE","Type 00 EV"]},
+    {brand: "BMW",models: ["X1","X3","X5","X7","i4","iX","2 Series Gran Coupe","M340i","7 Series Sedan"]},
+    {brand: "Porsche",models: ["Macan EV","Taycan","911 GTS","Panamera GTS","Cayenne GTS","Taycan Facelift"]}
+  ];
+
+  const assetType = document.getElementById("type");
+  const brandInput = document.getElementById("brand-container");
+  const modelInput = document.getElementById("model-container");
+  const vehicleBrandContainer = document.getElementById("vehicle-brand-container");
+  const vehicleModelContainer = document.getElementById("vehicle-model-container");
+
+  const vehicleBrand = document.getElementById("vehicleBrand");
+  const vehicleModel = document.getElementById("vehicleModel");
+
+  // Hidden Django fields (text inputs)
+  const brandHidden = document.getElementById("brand");
+  const modelHidden = document.getElementById("model");
+
+  assetType.addEventListener("change", () => {
+    if (assetType.value === "Vehicle") {
+      brandInput.classList.add("hidden");
+      modelInput.classList.add("hidden");
+      vehicleBrandContainer.classList.remove("hidden");
+      vehicleModelContainer.classList.remove("hidden");
+
+      // Fill brands
+      vehicleBrand.innerHTML = `<option value="">-- Select Brand --</option>`;
+      vehicleData.forEach(b => {
+        vehicleBrand.innerHTML += `<option value="${b.brand}">${b.brand}</option>`;
+      });
+
+      // Reset models
+      vehicleModel.innerHTML = `<option value="">-- Select Model --</option>`;
+    } else {
+      brandInput.classList.remove("hidden");
+      modelInput.classList.remove("hidden");
+      vehicleBrandContainer.classList.add("hidden");
+      vehicleModelContainer.classList.add("hidden");
+    }
+  });
+
+  // Load models when brand changes
+  vehicleBrand.addEventListener("change", () => {
+    const selectedBrand = vehicleBrand.value;
+    const brandObj = vehicleData.find(b => b.brand === selectedBrand);
+
+    vehicleModel.innerHTML = `<option value="">-- Select Model --</option>`;
+    if (brandObj) {
+      brandObj.models.forEach(m => {
+        vehicleModel.innerHTML += `<option value="${m}">${m}</option>`;
+      });
+    }
+
+    // sync to Django hidden field
+    brandHidden.value = selectedBrand;
+  });
+
+  vehicleModel.addEventListener("change", () => {
+    modelHidden.value = vehicleModel.value;
+  });
+  const form = document.getElementById("assetForm");
+  const successBox = document.getElementById("successMessage");
+  const assetCodeInput = document.getElementById("assetCode");
+  const btn = document.getElementById("button");
+
+  async function checkAvailability() {
+    const code = assetCodeInput.value.trim();
+    if (!code) return;
+
+    // Reset styles
+    assetCodeInput.classList.remove("border-green-500", "border-red-500");
+
+    try {
+      const response = await fetch(`/check_availability/?code=${encodeURIComponent(code)}`);
+      const data = await response.json();
+
+      if (data.available) {
+        // ❌ Already exists → red border + disable submit
+        btn.disabled = true;
+        assetCodeInput.classList.add("border-red-500");
+      } else {
+        // ✅ Not exists → green border + allow submit
+        btn.disabled = false;
+        assetCodeInput.classList.add("border-green-500");
+      }
+    } catch (error) {
+      assetCodeInput.classList.add("border-red-500");
+    }
+  }
+
+  // Auto check while typing (after 3+ characters)
+  assetCodeInput.addEventListener("input", () => {
+    if (assetCodeInput.value.length >= 3) {
+      checkAvailability();
+    } else {
+      assetCodeInput.classList.remove("border-green-500", "border-red-500");
+    }
+  });
+
+  form.addEventListener("submit", function (e) {
+    successBox.classList.remove("hidden");
+
+    setTimeout(() => {
+      successBox.classList.add("hidden");
+      form.reset();
+    }, 2000);
+  });
+</script>
 

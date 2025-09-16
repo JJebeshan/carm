@@ -4,13 +4,13 @@
       <ul class="flex space-x-6 text-sm font-semibold">
         <li><a href="{% url 'index'%}" class="hover:text-blue-500">Home</a></li>
         <li><a href="{% url 'declaration'%}" class="hover:text-blue-500">Asset Registration</a></li>
-        <li><a href="#" class="hover:text-blue-500">Vehicle Purchase</a></li>
-        <li><a href="{% url 'new'%}" class="hover:text-blue-500">Car Rental</a></li>
+        <li><a href="{% url 'pricing'%}" class="hover:text-blue-500">Vehicle Purchase</a></li>
+        <li><a href="{% url 'new'%}" class="hover:text-blue-500">Booking</a></li>
         <li><a href="{% url 'maintaince'%}" class="hover:text-blue-500">Maintenance</a></li>
-        <li><a href="#" class="hover:text-blue-500">Insurance</a></li>
-        <li><a href="#" class="hover:text-blue-500">Documents</a></li>
-        <li><a href="#" class="hover:text-blue-500">Contract Closure</a></li>
-        <li><a href="#" class="hover:text-blue-500">Reports</a></li>
+        <!-- <li><a href="#" class="hover:text-blue-500">Insurance</a></li> -->
+        <!-- <li><a href="#" class="hover:text-blue-500">Documents</a></li> -->
+        <li><a href="{% url 'close' %}" class="hover:text-blue-500">Contract Closure</a></li>
+        <!-- <li><a href="#" class="hover:text-blue-500">Reports</a></li> -->
         <li><a href="{% url 'login'%}" class="text-white bg-blue-600 px-4 py-1 rounded">Login</a></li>
       </ul>
     </div>

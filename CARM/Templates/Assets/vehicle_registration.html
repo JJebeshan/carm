@@ -1,121 +1,182 @@
+<title>Vehicle Registration</title>
+{% include 'navbar.html'%}
+<script defer>
+  function showFrame(step) {
+    document.querySelectorAll(".step").forEach(el => el.classList.add("hidden"));
+    document.getElementById("step-" + step).classList.remove("hidden");
+  }
+</script>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
 
-  <title>Vehicle Registration</title>
-  {% include 'navbar.html'%}
-  <script defer>
-    function showFrame(step) {
-      document.querySelectorAll(".step").forEach(el => el.classList.add("hidden"));
-      document.getElementById("step-" + step).classList.remove("hidden");
-    }
-  </script>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+<!-- Full Page Center -->
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+  <!-- Card -->
+  <div class="w-full max-w-3xl mx-auto p-8 bg-white rounded-xl shadow-lg border">
+<div id="step-1" class="step">
+  <h2 class="text-2xl font-bold mb-6 text-center text-blue-700">Vehicle Details</h2>
+ <form method="post" enctype="multipart/form-data" class="space-y-6" action="{% url 'pricing' %}">
+  {% csrf_token %}
 
-<div class="max-w-3xl mx-auto p-8 bg-white mt-10 rounded shadow-md">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <!-- Asset Code -->
+    <div>
+      {{ vehicle_form.Ast_code.label_tag }}
+      {{ vehicle_form.Ast_code }}
+    </div>
 
-  <!-- Step 1 -->
-  <div id="step-1" class="step">
-    <h2 class="text-2xl font-bold mb-6">Vehicle Details</h2>
-    <form onsubmit="event.preventDefault(); showFrame(2);" class="grid gap-4">
+    <!-- Plate No -->
+    <div>
+      {{ vehicle_form.Plate_no.label_tag }}
+      {{ vehicle_form.Plate_no }}
+    </div>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+  <div>
+    {{ vehicle_form.model.label_tag }}
+    {{ vehicle_form.model }}
+  </div>
+  <div>
+    {{ vehicle_form.brand.label_tag }}
+    {{ vehicle_form.brand }}
+  </div>
+</div>
 
-      <input type="text" placeholder="Vehicle Number" required class="border px-4 py-2 rounded">
-
-      <select required class="border px-4 py-2 rounded">
-        <option value="">-- Vehicle Type --</option>
-        <option>SUV</option>
-        <option>EV</option>
-        <option>Sedan</option>
-        <option>Hatchback</option>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <!-- Vehicle Type Dropdown -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Vehicle Type</label>
+      <select name="Vehicle_type" class="w-full border px-4 py-2 rounded" required>
+        <option value="">-- Select --</option>
+        <option value="SUV">SUV</option>
+        <option value="EV">EV</option>
+        <option value="Sedan">Sedan</option>
+        <option value="Hatchback">Hatchback</option>
       </select>
+    </div>
 
-      <select required class="border px-4 py-2 rounded">
-        <option value="">-- Engine Type --</option>
-        <option>BS4</option>
-        <option>BS6</option>
+    <!-- Engine Type Dropdown -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Engine Type</label>
+      <select name="Engine_type" class="w-full border px-4 py-2 rounded" required>
+        <option value="">-- Select --</option>
+        <option value="BS3">BS3</option>
+        <option value="BS4">BS4</option>
+        <option value="BS6">BS6</option>
       </select>
+    </div>
 
-      <select required class="border px-4 py-2 rounded">
-        <option value="">-- Fuel Type --</option>
-        <option>Petrol</option>
-        <option>Diesel</option>
-        <option>Electric</option>
+    <!-- Fuel Type Dropdown -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Fuel Type</label>
+      <select name="Fuel_type" class="w-full border px-4 py-2 rounded" required>
+        <option value="">-- Select --</option>
+        <option value="Petrol">Petrol</option>
+        <option value="Diesel">Diesel</option>
+        <option value="Electric">Electric</option>
       </select>
-
-      <input type="number" placeholder="Vehicle Year" required class="border px-4 py-2 rounded">
-      <input type="number" placeholder="Mileage (in KM)" required class="border px-4 py-2 rounded">
-
-      <button class="bg-blue-600 text-white py-2 px-4 rounded w-32">Next</button>
-    </form>
+    </div>
   </div>
 
-  <!-- Step 2 -->
-  <div id="step-2" class="step hidden">
-    <h2 class="text-2xl font-bold mb-4">Price Details</h2>
-    <form onsubmit="event.preventDefault(); showFrame(3);" class="grid gap-4">
-
-      <input type="number" placeholder="Depreciation (%)" required class="border px-4 py-2 rounded">
-      <input type="number" placeholder="Purchase Amount (INR)" required class="border px-4 py-2 rounded">
-
-      <hr class="my-4">
-
-      <h3 class="text-xl font-semibold">Documents</h3>
-      <input type="text" placeholder="Insurance Document No" required class="border px-4 py-2 rounded">
-      <input type="text" placeholder="Chassis No" required class="border px-4 py-2 rounded">
-      <input type="text" placeholder="Engine No" required class="border px-4 py-2 rounded">
-
-      <!-- <select required class="border px-4 py-2 rounded">
-        <option value="">-- RC Valid Upto (Year) --</option>
-        
-        <script>
-          const yearSelect = document.currentScript.previousElementSibling;
-          for (let y = new Date().getFullYear(); y <= 2040; y++) {
-            const opt = document.createElement("option");
-            opt.value = opt.textContent = y;
-            yearSelect.appendChild(opt);
-          }
-        </script>
-      </select> -->
-
-      <div class="flex justify-between">
-        <button type="button" onclick="showFrame(1)" class="bg-gray-300 py-2 px-4 rounded">Back</button>
-        <button class="bg-blue-600 text-white py-2 px-4 rounded">Next</button>
-      </div>
-    </form>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      {{ vehicle_form.color.label_tag }}
+      {{ vehicle_form.color }}
+    </div>
+    <div>
+      {{ vehicle_form.year.label_tag }}
+      {{ vehicle_form.year }}
+    </div>
   </div>
 
-  <!-- Step 3 -->
-  <div id="step-3" class="step hidden">
-    <h2 class="text-2xl font-bold mb-6">Rent Details</h2>
-    <form onsubmit="event.preventDefault(); alert('Vehicle Registered! ✅');" class="space-y-4">
-
-      <input type="number" placeholder="Rent Amount per Day (INR)" required class="border px-4 py-2 rounded">
-
-      <div class="grid grid-cols-2 gap-4">
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Additional KM</label>
-          <input type="number" placeholder="KM" class="w-full border px-4 py-2 rounded" required>
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Price per KM</label>
-          <input type="number" placeholder="INR" class="w-full border px-4 py-2 rounded" required>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-2 gap-4">
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Late Hours</label>
-          <input type="number" placeholder="Hours" class="w-full border px-4 py-2 rounded" required>
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Late Fee per Hour</label>
-          <input type="number" placeholder="INR" class="w-full border px-4 py-2 rounded" required>
-        </div>
-      </div>
-
-      <div class="flex justify-between">
-        <button type="button" onclick="showFrame(2)" class="bg-gray-300 py-2 px-4 rounded">Back</button>
-        <button type="submit" class="bg-green-600 text-white py-2 px-6 rounded hover:bg-green-700">Submit</button>
-      </div>
-
-    </form>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      {{ vehicle_form.mileage.label_tag }}
+      {{ vehicle_form.mileage }}
+    </div>
+    <div>
+      {{ vehicle_form.Purchase.label_tag }}
+      {{ vehicle_form.Purchase }}
+    </div>
   </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div>
+      {{ vehicle_form.Insurance.label_tag }}
+      {{ vehicle_form.Insurance }}
+    </div>
+    <div>
+      {{ vehicle_form.chasis_no.label_tag }}
+      {{ vehicle_form.chasis_no }}
+    </div>
+    <div>
+      {{ vehicle_form.Engine_no.label_tag }}
+      {{ vehicle_form.Engine_no }}
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      {{ vehicle_form.Rent.label_tag }}
+      {{ vehicle_form.Rent }}
+    </div>
+    <div>
+      {{ vehicle_form.meter_In.label_tag }}
+      {{ vehicle_form.meter_In }}
+    </div>
+  </div>
+
+  <!-- Vehicle Images -->
+  <hr class="my-4">
+  <h3 class="text-xl font-semibold text-blue-700">Upload Vehicle Images</h3>
+
+  
+  <<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+  <div>
+    <label class="block text-sm font-medium text-gray-700">Front Image</label>
+    {{ vehicle_form.Front_image }}
+  </div>
+  <div>
+    <label class="block text-sm font-medium text-gray-700">Back Image</label>
+    {{ vehicle_form.Back_image }}
+  </div>
+</div>
+
+  <!-- Submit -->
+  <div class="text-center">
+    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+      Save Vehicle
+    </button>
+  </div>
+</form>
+
 
 </div>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const astSelect = document.querySelector("select[name='Ast_code']");
+    const purchaseInput = document.querySelector("input[name='Purchase']");
+    const brand=document.querySelector("input[name='brand']");
+    const model=document.querySelector("input[name='model']");
+
+    astSelect.addEventListener("change", function() {
+      const code = this.value;
+      if (code) {
+        fetch(`get_purchase/?ast_code=${encodeURIComponent(code)}`)
+          .then(response => response.json())
+          .then(data => {
+            if (data.purchase !== null) {
+              purchaseInput.value = data.purchase;
+              brand.value=data.brand;
+              model.value=data.model
+            } else {
+              purchaseInput.value = "";
+            }
+          });
+      } else {
+        purchaseInput.value = "";
+      }
+    });
+  });
+</script>
+
+
