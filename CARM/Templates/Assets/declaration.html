@@ -1,14 +1,13 @@
 <title>Asset Declaration</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
 {% include 'navbar.html'%}
+{% load static%}
 
 <div class="min-h-screen flex items-center justify-center">
   
   <!-- Left Image Section -->
   <div class="w-1/3 hidden md:flex flex-col justify-center items-center bg-blue-100 space-y-6 p-6">
-    <img src="https://via.placeholder.com/100x100?text=Asset" class="rounded shadow" alt="asset-1">
-    <img src="https://via.placeholder.com/100x100?text=Vehicle" class="rounded shadow" alt="asset-2">
-    <img src="https://via.placeholder.com/100x100?text=Machine" class="rounded shadow" alt="asset-3">
+    <img src="{% static 'car1.jpg' %}" class="rounded shadow" alt="asset-1">
   </div>
 
   <!-- Right Form Section -->

@@ -63,9 +63,6 @@ def pricing(request):
     })
 
 
-    
-
-
 
 def maintaince(request):
 

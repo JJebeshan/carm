@@ -14,6 +14,10 @@ def index(request):
 def login(request):
     return render(request,'Registration/login.html')
 
+def logout(request):
+    request.session.flush()
+    return redirect('login')
+
 def company(request):
     return render(request,'Registration/company.html')
 

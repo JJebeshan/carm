@@ -1,0 +1,12 @@
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+<body>
+    <div id="successModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+  <div class="bg-white rounded-2xl shadow-xl p-8 max-w-sm w-full text-center">
+    <h2 class="text-2xl font-semibold text-green-600 mb-4">✅ Contract Created Successfully!</h2>
+    <p class="text-gray-700 mb-6">Your contract has been saved successfully.</p>
+    <a href="{% url 'index' %}" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-xl transition">
+      Go to Home
+    </a>
+  </div>
+</div>
+</body>

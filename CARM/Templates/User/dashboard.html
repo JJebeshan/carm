@@ -3,8 +3,10 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <!-- Sidebar -->
-<div id="sidebar" class="bg-white w-64 h-screen shadow-lg fixed left-0 top-0 transform -translate-x-64 transition-transform duration-300 lg:translate-x-0">
-  <div class="p-4 text-2xl font-bold text-blue-600">AK Car Rental</div>
+<div id="sidebar" class="bg-white w-64 shadow-lg fixed left-0 top-16 transform -translate-x-64 transition-transform duration-300 z-40 lg:translate-x-0" 
+     style="height: calc(100vh - 4rem);">
+
+  <div class="p-4 text-2xl font-bold text-blue-600"></div>
   <nav class="mt-6 space-y-1">
     <button onclick="showSection('dashboard')" class="w-full text-left py-2.5 px-4 hover:bg-blue-100 rounded">Dashboard</button>
     <button onclick="showSection('addUser')" class="w-full text-left py-2.5 px-4 hover:bg-blue-100 rounded">Add User</button>
@@ -14,7 +16,10 @@
 </div>
 
 <!-- Hamburger -->
-<button id="hamburger" class="lg:hidden fixed top-4 left-4 z-50 bg-blue-600 text-white p-2 rounded">☰</button>
+<button id="hamburger" class="fixed top-8 left-4 z-50 bg-blue-600 text-white p-2 rounded lg:hidden">☰</button>
+
+<!-- Overlay for mobile when sidebar is open -->
+<div id="overlay" class="fixed inset-0 bg-black bg-opacity-30 hidden z-30 lg:hidden"></div>
 
 <!-- Main Content -->
 <div class="flex-1 lg:ml-64 p-6">

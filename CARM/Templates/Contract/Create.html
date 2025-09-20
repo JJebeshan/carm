@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Rental Invoice Form</title>
+  <title>Booking site</title>
   <script>
     window.addEventListener('DOMContentLoaded', () => {
       const today = new Date().toISOString().substr(0, 10);
@@ -14,14 +14,25 @@
 
 <body class="bg-gray-100">
   {% include 'navbar.html'%}
+  {% if messages %}
+  <div class="fixed top-4 right-4 space-y-2 z-50">
+    {% for message in messages %}
+      <div class="bg-green-500 text-white px-6 py-3 rounded-lg shadow-md">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
 
 <div class="max-w-5xl mx-auto bg-white p-8 rounded-xl shadow space-y-8">
-
+<form action="{% url 'create' %}" method="post">
+  {% csrf_token %}
   <!-- Header -->
   <h2 class="text-2xl font-bold text-blue-700 text-center mb-6">Car Rental  Form</h2>
 
   <!-- Date & Vehicle Info -->
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    
     <div>
       <label class="block text-sm font-medium text-gray-700">Date</label>
       <input name= "docdate"type="date" id="todayDate" class="w-full border px-4 py-2 rounded" required>
@@ -37,7 +48,7 @@
     </div>
     <div>
       <label class="block text-sm font-medium text-gray-700">Car Color</label>
-      <input type="text" name="color" class="w-full border px-4 py-2 rounded bg-gray-100 text-gray-600 cursor-not-allowed" placeholder="e.g. Red" required disabled>
+      <input type="text" name="color" class="w-full border px-4 py-2 rounded bg-gray-100 text-gray-600 cursor-not-allowed" placeholder="e.g. Red" required >
     </div>
     <div>
       <label class="block text-sm font-medium text-gray-700">Brand</label>
@@ -59,25 +70,25 @@
 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
   <div>
     <label class="block text-sm font-medium text-gray-700">Rent/Day (₹)</label>
-    <input type="number" name="Rent" class="w-full border px-4 py-2 rounded" required>
+    <input type="text" name="Rent" class="w-full border px-4 py-2 rounded bg-gray-100 text-gray-600 cursor-not-allowed" required>
   </div>
   <div>
     <label class="block text-sm font-medium text-gray-700">Allowed Km</label>
-    <input type="number" name= "Allowed" class="w-full border px-4 py-2 rounded" required>
+    <input type="number" name= "Allowed" class="w-full border px-4 py-2 rounded bg-gray-100 text-gray-600 cursor-not-allowed" required>
   </div>
   <div>
     <label class="block text-sm font-medium text-gray-700">Addl. Km (₹/km)</label>
-    <input type="number" class="w-full border px-4 py-2 rounded">
+    <input type="text" class="w-full border px-4 py-2 rounded" name="addkm">
   </div>
   <div>
     <label class="block text-sm font-medium text-gray-700">Late Hr (₹/hr)</label>
-    <input type="number" class="w-full border px-4 py-2 rounded">
+    <input type="text" class="w-full border px-4 py-2 rounded" name="latehr">
   </div>
   <div>
     <label class="block text-sm font-medium text-gray-700">No. of Days</label>
-    <input type="number" placeholder="e.g. 5" class="w-full border px-4 py-2 rounded">
+    <input type="text" id="result" placeholder="e.g. 5" class="w-full border px-4 py-2 rounded bg-gray-100 text-gray-600 cursor-not-allowed" name="days">
   </div>
-  <div>
+  <div> 
     <label class="block text-sm font-medium text-gray-700">Return Date</label>
     <input type="date" class="w-full border px-4 py-2 rounded" name="return_date">
   </div>
@@ -102,15 +113,17 @@
   </div>
 
   <h3 class="text-lg font-semibold text-blue-700 mb-4">Customer Details</h3>
+  
 
   <!-- Existing Customer -->
   <div id="existingSection" class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <div>
       <label class="block text-sm font-medium text-gray-700">Customer ID</label>
-      <select class="w-full border px-4 py-2 rounded">
+      <select class="w-full border px-4 py-2 rounded" name="cust_id">
         <option>-- Select --</option>
-        <option>CUST001</option>
-        <option>CUST002</option>
+        {% for cust in Customer%}
+        <option value="{{ cust.customer_id }}">{{cust.customer_id}}</option>
+        {% endfor %}
       </select>
     </div>
     <div class="flex items-center justify-center mt-2 md:mt-0">
@@ -119,17 +132,17 @@
     </div>
     <div>
       <label class="block text-sm font-medium text-gray-700">Customer Name</label>
-      <input type="text" class="w-full border px-4 py-2 rounded">
+      <input type="text" class="w-full border px-4 py-2 rounded bg-gray-100 text-gray-600 cursor-not-allowed" name="oldcustomer" readonly>
     </div>
     <div>
       <label class="block text-sm font-medium text-gray-700">Email</label>
-      <input type="email" class="w-full border px-4 py-2 rounded">
+      <input type="email" class="w-full border px-4 py-2 rounded bg-gray-100 text-gray-600 cursor-not-allowed" name="oldemail" readonly>
     </div>
     <div class="md:col-span-2">
       <label class="block text-sm font-medium text-gray-700">Phone</label>
       <div class="flex space-x-2">
-        <input type="tel" class="flex-1 border px-4 py-2 rounded">
-        <button id="sendOtpBtn" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+        <input type="tel" class="flex-1 border px-4 py-2 rounded bg-gray-100 text-gray-600 cursor-not-allowed" name="oldphone" readonly>
+        <button id="sendOtpBtn" type="button" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
           Send OTP
         </button>
       </div>
@@ -137,8 +150,8 @@
       <div id="otpSection" class="mt-3 hidden">
         <input id="otpInput" type="text" maxlength="6"
           class="w-full border px-4 py-2 rounded mb-2" placeholder="Enter OTP">
-        <button id="verifyBtn"
-          class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-full">
+        <button id="verifyBtn" type="button"
+          class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-full" >
           Verify
         </button>
       </div>
@@ -149,8 +162,8 @@
   <div id="newSection" class="grid grid-cols-1 md:grid-cols-2 gap-4 hidden">
     <div>
       <label class="block text-sm font-medium text-gray-700">Customer ID</label>
-      <input type="text" class="w-full border px-4 py-2 rounded bg-gray-100"
-        value="Auto Generated" readonly>
+      <input type="text" class="w-full border px-4 py-2 rounded bg-gray-100" name="custid"
+        value="{{Customerid}}" readonly>
     </div>
     <div class="flex items-center justify-center mt-2 md:mt-0">
       <img src="https://via.placeholder.com/100" alt="Customer"
@@ -158,17 +171,17 @@
     </div>
     <div>
       <label class="block text-sm font-medium text-gray-700">Customer Name</label>
-      <input type="text" class="w-full border px-4 py-2 rounded">
+      <input type="text" class="w-full border px-4 py-2 rounded" name="name">
     </div>
     <div>
       <label class="block text-sm font-medium text-gray-700">Email</label>
-      <input type="email" class="w-full border px-4 py-2 rounded">
+      <input type="email" class="w-full border px-4 py-2 rounded" name="email">
     </div>
     <div class="md:col-span-2">
-      <label class="block text-sm font-medium text-gray-700">Phone</label>
+      <label class="block text-sm font-medium text-gray-700"  >Phone</label>
       <div class="flex space-x-2">
-        <input type="tel" class="flex-1 border px-4 py-2 rounded">
-        <button id="sendOtpBtnNew" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+        <input type="tel" class="flex-1 border px-4 py-2 rounded" name="phone">
+        <button id="sendOtpBtnNew" type="button" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" >
           Send OTP
         </button>
       </div>
@@ -176,7 +189,7 @@
       <div id="otpSectionNew" class="mt-3 hidden">
         <input id="otpInputNew" type="text" maxlength="6"
           class="w-full border px-4 py-2 rounded mb-2" placeholder="Enter OTP">
-        <button id="verifyBtnNew"
+        <button id="verifyBtnNew" type="button"
           class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-full">
           Verify
         </button>
@@ -189,125 +202,226 @@
 
 
   <!-- Invoice Details -->
-  <h3 class="text-lg font-semibold text-blue-700 mb-2">Invoice Details</h3>
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-    <div>
-      <label class="block text-sm font-medium text-gray-700">Discount</label>
-      <div class="flex gap-2">
-        <select class="w-1/2 border px-2 py-2 rounded">
-          <option>Flat</option>
-          <option>%</option>
-        </select>
-        <input type="number" class="w-1/2 border px-2 py-2 rounded" placeholder="Amount">
-      </div>
-    </div>
-    <div>
-      <label class="block text-sm font-medium text-gray-700">Tax</label>
-      <div class="flex gap-2">
-        <select class="w-1/2 border px-2 py-2 rounded">
-          <option>GST</option>
-          <option>CGST</option>
-          <option>SGST</option>
-        </select>
-        <input type="number" class="w-1/2 border px-2 py-2 rounded" placeholder="Amount">
-      </div>
-    </div>
-    <div>
-      <label class="block text-sm font-medium text-gray-700">Others</label>
-      <div class="flex gap-2">
-        <select class="w-1/2 border px-2 py-2 rounded">
-          <option>Delivery</option>
-          <option>Driver Tip</option>
-        </select>
-        <input type="number" class="w-1/2 border px-2 py-2 rounded" placeholder="Amount">
-      </div>
+<h3 class="text-lg font-semibold text-blue-700 mb-2">Invoice Details</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+  <!-- Discount -->
+  <div>
+    <label class="block text-sm font-medium text-gray-700">Discount</label>
+    <div class="flex gap-2">
+      <select class="w-1/2 border px-2 py-2 rounded" name="disc_type">
+        <option value="flat">Flat</option>
+        <option value="percent">%</option>
+      </select>
+      <input type="number" class="w-1/2 border px-2 py-2 rounded" placeholder="Amount" name="discount">
     </div>
   </div>
+
+  <!-- Tax -->
+  <div>
+    <label class="block text-sm font-medium text-gray-700">Tax</label>
+    <div class="flex gap-2">
+      <select class="w-1/2 border px-2 py-2 rounded" name="tax">
+        <option>GST</option>
+      </select>
+      <input type="number" class="w-1/2 border px-2 py-2 rounded" placeholder="Amount" name="tax_amount">
+    </div>
+  </div>
+
+  <!-- Others -->
+  <div>
+    <label class="block text-sm font-medium text-gray-700">Others</label>
+    <div class="flex gap-2">
+      <select class="w-1/2 border px-2 py-2 rounded" name="other_type">
+        <option>Delivery</option>
+      </select>
+      <input type="number" class="w-1/2 border px-2 py-2 rounded" placeholder="Amount" name="other">
+    </div>
+  </div>
+
+  <!-- Deposit Amount -->
+  <div>
+    <label class="block text-sm font-medium text-gray-700">Initial Payment</label>
+    <input type="number" class="w-full border px-2 py-2 rounded" placeholder="Enter Deposit" name="deposit">
+  </div>
+
+  <!-- Maintenance Service -->
+  <div>
+    <label class="block text-sm font-medium text-gray-700">Maintenance Service</label>
+    <div class="flex gap-2">
+      <input type="text" class="w-1/2 border px-2 py-2 rounded" placeholder="Service Name" name="service">
+      <input type="number" class="w-1/2 border px-2 py-2 rounded" placeholder="Amount" name="service_amount">
+    </div>
+  </div>
+</div>
 
   <hr class="my-6 border-t-2 border-gray-300">
 
   <!-- Payment Details -->
   <h3 class="text-lg font-semibold text-blue-700 mb-2">Payment Details</h3>
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-    <div>
-      <label class="block text-sm font-medium text-gray-700">Payment Method</label>
-      <select class="w-full border px-4 py-2 rounded" required>
-        <option>-- Select --</option>
-        <option>Cash</option>
-        <option>Card</option>
-        <option>UPI</option>
-        <option>Bank Transfer</option>
-      </select>
-    </div>
-    <div>
-      <label class="block text-sm font-medium text-gray-700">Amount Excl. Tax</label>
-      <input type="number" class="w-full border px-4 py-2 rounded" required>
-    </div>
-    <div>
-      <label class="block text-sm font-medium text-gray-700">Total Amount Incl. Tax</label>
-      <input type="number" class="w-full border px-4 py-2 rounded" required>
-    </div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+  <!-- Amount Excl. Tax -->
+  <div>
+    <label class="block text-sm font-medium text-gray-700">Amount Excl. Tax</label>
+    <input type="number" class="w-full border px-4 py-2 rounded" name="Excltax"  required readonly>
   </div>
+
+  <!-- Total Amount Incl. Tax -->
+  <div>
+    <label class="block text-sm font-medium text-gray-700">Total Amount Incl. Tax</label>
+    <input type="number" class="w-full border px-4 py-2 rounded" name="incltax" required readonly>
+  </div>
+
+  <!-- Balance -->
+  <div>
+    <label class="block text-sm font-medium text-gray-700">Balance(incltax-initial)</label>
+    <input type="number" id="balance" class="w-full border px-4 py-2 rounded" name="balance" readonly>
+  </div>
+
+  <!-- Payment Type -->
+  <div>
+    <label class="block text-sm font-medium text-gray-700">Payment Type</label>
+    <select class="w-full border px-4 py-2 rounded" name="paymethod">
+      <option>-- Select Payment Type --</option>
+      <option>Cash</option>
+    </select>
+  </div>
+
+  <!-- Payment ID -->
+  <div>
+    <label class="block text-sm font-medium text-gray-700">Payment ID</label>
+    <input type="text" class="w-full bg-gray-500 border px-4 py-2 rounded cursor-not-allowed" placeholder="Txn/Ref ID" name="paytxn" readonly>
+  </div>
+
+  <!-- Pay Button -->
+  <div class="flex items-end">
+    <button type="button" class="w-full bg-red-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded shadow" id="paybtn">
+      Pay
+    </button>
+  </div>
+</div>
 
   <!-- Save Button -->
   <div class="pt-6 text-center">
-    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700" name="action" value="contract">
       Save Invoice
     </button>
   </div>
-
+</form>
 </div>
 
 <script>
   // Toggle Existing/New
-  const existingSection = document.getElementById("existingSection");
-  const newSection = document.getElementById("newSection");
-  document.querySelectorAll("input[name='customerType']").forEach(radio => {
-    radio.addEventListener("change", (e) => {
-      if (e.target.value === "existing") {
-        existingSection.classList.remove("hidden");
-        newSection.classList.add("hidden");
-      } else {
-        newSection.classList.remove("hidden");
-        existingSection.classList.add("hidden");
-      }
+  document.addEventListener("DOMContentLoaded", function () {
+    const existingSection = document.getElementById("existingSection");
+    const newSection = document.getElementById("newSection");
+
+    const toggleSections = () => {
+        const selected = document.querySelector("input[name='customerType']:checked").value;
+
+        if (selected === "existing") {
+            existingSection.classList.remove("hidden");
+            newSection.classList.add("hidden");
+
+            existingSection.querySelectorAll("input, select").forEach(i => i.disabled = false);
+            newSection.querySelectorAll("input, select").forEach(i => i.disabled = true);
+        } else {
+            newSection.classList.remove("hidden");
+            existingSection.classList.add("hidden");
+
+            newSection.querySelectorAll("input, select").forEach(i => i.disabled = false);
+            existingSection.querySelectorAll("input, select").forEach(i => i.disabled = true);
+        }
+    };
+
+    document.querySelectorAll("input[name='customerType']").forEach(radio => {
+        radio.addEventListener("change", toggleSections);
     });
-  });
 
-  // OTP Logic (Reusable)
-  function setupOtpFlow(sendBtnId, otpSectionId, otpInputId, verifyBtnId) {
-    const sendBtn = document.getElementById(sendBtnId);
-    const otpSection = document.getElementById(otpSectionId);
-    const otpInput = document.getElementById(otpInputId);
-    const verifyBtn = document.getElementById(verifyBtnId);
+    toggleSections(); // initial state
+});
 
-    sendBtn.addEventListener("click", () => {
+
+// OTP Logic (Reusable)
+async function setupOtpFlow(sendBtnId, otpSectionId, otpInputId, verifyBtnId) {
+  const sendBtn = document.getElementById(sendBtnId);
+  const otpSection = document.getElementById(otpSectionId);
+  const otpInput = document.getElementById(otpInputId);
+  const verifyBtn = document.getElementById(verifyBtnId);
+
+  // Send OTP
+  sendBtn.addEventListener("click", async () => {
+    const response = await fetch("send-otp/", {
+      method: "POST",
+      headers: {
+        "X-CSRFToken": getCookie("csrftoken"), // ✅ CSRF protection
+      },
+    });
+
+    const data = await response.json();
+    if (data.status === "success") {
       otpSection.classList.remove("hidden");
       otpInput.removeAttribute("readonly");
       otpInput.value = "";
       verifyBtn.textContent = "Verify";
       verifyBtn.classList.remove("bg-gray-400");
       verifyBtn.classList.add("bg-green-600", "hover:bg-green-700");
+      alert(data.message);
+    } else {
+      alert(data.message);
+    }
+  });
+
+  // Verify OTP
+  verifyBtn.addEventListener("click", async () => {
+    const customerData = {
+      custid: document.querySelector("input[name='custid']")?.value || "",
+      name: document.querySelector("input[name='name']")?.value || "",
+      email: document.querySelector("input[name='email']")?.value || "",
+      phone: document.querySelector("input[name='phone']")?.value || ""
+    };
+
+    const response = await fetch("verify-otp/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",   // ✅ JSON instead of urlencoded
+        "X-CSRFToken": getCookie("csrftoken"),
+      },
+     body: JSON.stringify(customerData)  
     });
 
-    verifyBtn.addEventListener("click", () => {
-      // Simulate OTP check (set correct OTP as 123456 for demo)
-      if (otpInput.value === "123456") {
-        otpInput.setAttribute("readonly", true);
-        verifyBtn.textContent = "Verified ✓";
-        verifyBtn.classList.remove("bg-green-600", "hover:bg-green-700");
-        verifyBtn.classList.add("bg-gray-400");
-      } else {
-        alert("Invalid OTP. Try again.");
+    const data = await response.json();
+    if (data.status === "success") {
+      otpInput.setAttribute("readonly", true);
+      verifyBtn.textContent = "Verified ✓";
+      verifyBtn.classList.remove("bg-green-600", "hover:bg-green-700");
+      verifyBtn.classList.add("bg-gray-400");
+    } else {
+      alert(data.message);
+    }
+  });
+}
+
+// ✅ CSRF helper function
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== "") {
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === name + "=") {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
       }
-    });
+    }
   }
+  return cookieValue;
+}
 
-  // Setup for both sections
-  setupOtpFlow("sendOtpBtn", "otpSection", "otpInput", "verifyBtn");
-  setupOtpFlow("sendOtpBtnNew", "otpSectionNew", "otpInputNew", "verifyBtnNew");
+// Setup for both OTP sections
+setupOtpFlow("sendOtpBtn", "otpSection", "otpInput", "verifyBtn");
+setupOtpFlow("sendOtpBtnNew", "otpSectionNew", "otpInputNew", "verifyBtnNew");
 
-  document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
   const plateSelect = document.querySelector("select[name='Plate_no']");
   const colorInput = document.querySelector("input[name='color']");
   const brandInput = document.querySelector("input[name='brand']");
@@ -315,9 +429,12 @@
   const meterInput = document.querySelector("input[name='meeter']");
   const rentInput = document.querySelector("input[name='Rent']");
   const allowedInput = document.querySelector("input[name='Allowed']");
+  
+  let k = 300;
 
   plateSelect.addEventListener("change", function () {
     const plateNo = this.value;
+    allowedInput.value = k;
 
     if (plateNo) {
       fetch(`get_vehicle/?Plate_no=${encodeURIComponent(plateNo)}`)
@@ -328,9 +445,6 @@
           modelInput.value = data.model || "";
           meterInput.value = data.meeter || "";
           rentInput.value = data.Rent || "";
-          if (allowedInput) {
-            allowedInput.value = data.Allowed || "";
-          }
         })
         .catch(error => console.error("Error fetching vehicle data:", error));
     } else {
@@ -345,6 +459,124 @@
     }
   });
 });
+// For invoice calc
+document.addEventListener("DOMContentLoaded", function () {
+  const totaldays      = document.querySelector("input[name='days']");
+  const rent           = document.querySelector("input[name='Rent']");
+  const discount       = document.querySelector("input[name='discount']");
+  const tax_amount     = document.querySelector("input[name='tax_amount']");
+  const discount_type  = document.querySelector("input[name='disc_type']");
+  const deposit        = document.querySelector("input[name='deposit']");
+  const service_amount = document.querySelector("input[name='service_amount']");
+  const Excltax        = document.querySelector("input[name='Excltax']");
+  const incltax        = document.querySelector("input[name='incltax']");
+  const other          = document.querySelector("input[name='other']");
+  const result         = document.getElementById("balance"); 
 
-document.captureEvents
+  // Only service_amount triggers recalculation
+  service_amount.addEventListener("change", grandtotal);
+
+  function grandtotal() {
+    const days        = parseFloat(totaldays.value) || 0;
+    const rentval     = parseFloat(rent.value) || 0;
+    const discountval = parseFloat(discount.value) || 0;
+    const taxval      = parseFloat(tax_amount.value) || 0;
+    const depositval  = parseFloat(deposit.value) || 0;
+    const disc_type   = discount_type?.value || "flat";
+    const serviceval  = parseFloat(service_amount.value) || 0;
+    const otherval    = parseFloat(other.value) || 0;
+
+    let finaldiscount = 0;
+
+    if (disc_type === "percent") {
+      finaldiscount = ((days * rentval) + serviceval + otherval) * (discountval * 0.01);
+    } else {
+      finaldiscount = discountval;
+    }
+
+    const base_amount   = ((days * rentval) + serviceval + otherval) - finaldiscount;
+    const final_tax     = base_amount * (taxval * 0.01);
+    const excltax_total = base_amount;
+    const incltax_total = excltax_total + final_tax;
+
+    // Update fields
+    Excltax.value = excltax_total.toFixed(2);
+    incltax.value = incltax_total.toFixed(2);
+    result.value  = (incltax_total - depositval).toFixed(2);
+  }
+});
+
+// for customer data fetch
+
+document.addEventListener("DOMContentLoaded", function () {
+  const custid = document.querySelector("select[name='cust_id']");
+  const cust_name = document.querySelector("input[name='oldcustomer']");
+  const cust_email = document.querySelector("input[name='oldemail']");
+  const cust_phone = document.querySelector("input[name='oldphone']");
+
+  custid.addEventListener("change", function () {
+    const selected = this.value;
+
+    if (selected) {
+      fetch(`get_customer/?customer_id=${encodeURIComponent(selected)}`)
+        .then(response => response.json())
+        .then(data => {
+          cust_name.value = data.name || "";
+          cust_email.value = data.email || "";
+          cust_phone.value = data.phone || "";
+        })
+        .catch(error => console.error("Error fetching vehicle data:", error));
+    } else {
+      cust_name.value = "";
+      cust_email.value = "";
+      cust_phone.value = "";
+    }
+  });
+});
+// for date calc
+document.addEventListener("DOMContentLoaded", function () 
+
+{
+  const docDateInput = document.querySelector("input[name='docdate']");
+  const returnDateInput = document.querySelector("input[name='return_date']");
+  const result = document.getElementById("result");
+
+  docDateInput.addEventListener("change", calculateDiff);
+  returnDateInput.addEventListener("change", calculateDiff);
+
+  function calculateDiff() {
+    const docDate = new Date(docDateInput.value);
+    const returnDate = new Date(returnDateInput.value);
+
+    if (isNaN(docDate) || isNaN(returnDate)) {
+      result.value = "";
+      return;
+    }
+
+    const diffMs = returnDate - docDate;
+    const diffDays = Math.abs(Math.round(diffMs / (1000 * 60 * 60 * 24)));
+
+    result.value = diffDays;
+  }
+});
+
+//onclick for paybtn
+document.addEventListener("DOMContentLoaded", function () {
+  const btn = document.getElementById("paybtn");
+  const ptid= document.querySelector("input[name='paytxn']");
+  function generateTxnId(length = 10) {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let result = "";
+    for (let i = 0; i < length; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+  }
+  btn.addEventListener("click", function () {
+    btn.textContent = "Paid";          
+    btn.style.backgroundColor = "green"; 
+    ptid.value = generateTxnId(10);
+  });
+});
+
 </script>
