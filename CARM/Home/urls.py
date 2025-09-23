@@ -7,4 +7,6 @@ urlpatterns=[
     path('company',views.company,name="company"),
     path('dashboard',views.dashboard,name="dashboard"),
     path('logout',views.logout,name="logout"),
+    path('userverify',views.user_verify,name="userverify"),
+    
 ]

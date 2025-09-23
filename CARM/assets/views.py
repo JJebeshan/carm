@@ -1,20 +1,40 @@
 from django.contrib import messages
 from django.shortcuts import render,redirect ,get_object_or_404
 from django.http import HttpResponse,JsonResponse
-from .models import Asset_register,Vehicle_listing,maintaince
+from .models import Asset_register,Vehicle_listing,maintaince,CarLocation
 from django.shortcuts import render, redirect
 from .forms import AssetRegisterForm , VehicleForm
+from django.views.decorators.csrf import csrf_exempt
+import json
+from asgiref.sync import async_to_sync
+#map
+
+## map endded
+def map_view(request):
+    return render(request, 'Contract/map.html')
 
 def declaration(request):
+    # Generate new asset code
+    ast_code = ""
+    ast_doc = Asset_register.objects.order_by("Ast_code").last()
+    if ast_doc:
+        ast = ast_doc.Ast_code
+        ast_id = int(''.join(filter(str.isdigit, ast)))
+        new_ast = ast_id + 1
+        ast_code = f"AST{new_ast:03d}"
+    else:
+        ast_code = "AST001"  # first code if no records exist
+
     if request.method == "POST":
         form = AssetRegisterForm(request.POST, request.FILES)
         if form.is_valid():
             asset = form.save(commit=False)
-            asset.addedby = request.session['userid']  # if using auth user
+            asset.addedby = request.session['userid']
             asset.save()
-            return redirect("declaration",)  # reload with success message
+            return redirect("declaration")
     else:
-        form = AssetRegisterForm()
+        # Pre-fill the form field with the generated asset code
+        form = AssetRegisterForm(initial={'Ast_code': ast_code})
 
     return render(request, "Assets/declaration.html", {"form": form})
 

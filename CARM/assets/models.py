@@ -21,7 +21,7 @@ class Asset_register(models.Model):
 
 class Vehicle_listing(models.Model):
     Ast_code = models.ForeignKey('Asset_register', on_delete=models.CASCADE,related_name='vehicles')
-    Plate_no = models.CharField(max_length=11,primary_key=True)
+    Plate_no = models.CharField(max_length=50,primary_key=True)
     brand=models.CharField(max_length=30,null=True, blank=True)
     model=models.CharField(max_length=30,null=True, blank=True)
     Vehicle_type = models.CharField(max_length=10)
@@ -40,7 +40,7 @@ class Vehicle_listing(models.Model):
     Back_image = models.ImageField(upload_to='vehicle_images/', null=True, blank=True)
 
     def __str__(self):
-        return f"{self.Plate_no} - {self.Vehicle_type}"
+        return f"{self.Plate_no}"
 
 class maintaince(models.Model):
     vehicle_no=models.ForeignKey(Vehicle_listing,on_delete=models.CASCADE)
@@ -51,4 +51,16 @@ class maintaince(models.Model):
 
     def __str__(self):
         return self.vehicle_no
+    
+class CarLocation(models.Model):
+    car = models.ForeignKey(Vehicle_listing, on_delete=models.CASCADE)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+    timestamp = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-timestamp']
+
+    def __str__(self):
+        return f"{self.car.name} at {self.latitude},{self.longitude}"
 

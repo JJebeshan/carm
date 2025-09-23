@@ -1,3 +1,4 @@
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
   <nav class="bg-white shadow-md">
     <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
       <h1 class="text-2xl font-bold text-blue-600">AK Car Rentals</h1>
@@ -8,7 +9,7 @@
         <li><a href="{% url 'pricing'%}" class="hover:text-blue-500">Vehicle Purchase</a></li>
         <li><a href="{% url 'new'%}" class="hover:text-blue-500">Booking</a></li>
         <li><a href="{% url 'maintaince'%}" class="hover:text-blue-500">Maintenance</a></li>
-        <!-- <li><a href="#" class="hover:text-blue-500">Insurance</a></li> -->
+        <li><a href="{% url 'userverify'%}" class="hover:text-blue-500">Dashbboard</a></li>
         <!-- <li><a href="#" class="hover:text-blue-500">Documents</a></li> -->
         <li><a href="{% url 'close' %}" class="hover:text-blue-500">Contract Closure</a></li>
         {% endif %}

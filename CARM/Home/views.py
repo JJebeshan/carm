@@ -21,6 +21,11 @@ def logout(request):
 def company(request):
     return render(request,'Registration/company.html')
 
+def user_verify(request):
+    if request.session.get('userid'):
+        return render(request,"User/dashboard.html")
+    return redirect('dashboard')
+
 def dashboard(request):
     if request.method == 'POST':
         Userid = request.POST.get('userid')

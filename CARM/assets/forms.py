@@ -24,8 +24,8 @@ class AssetRegisterForm(forms.ModelForm):
 
         widgets = {
             "Ast_code": forms.TextInput(attrs={
-                "class": "w-full border px-4 py-2 rounded pr-10",
-                "placeholder": "Code",
+                "class": "w-full border px-4 py-2 rounded pr-10 bg-gray-100 cursor-not-allowed",
+                "placeholder": "{{'Ast_code'}}",
                 "id": "assetCode",
                 "required": True
             }),

@@ -6,9 +6,32 @@
 <div class="min-h-screen flex items-center justify-center">
   
   <!-- Left Image Section -->
-  <div class="w-1/3 hidden md:flex flex-col justify-center items-center bg-blue-100 space-y-6 p-6">
-    <img src="{% static 'car1.jpg' %}" class="rounded shadow" alt="asset-1">
+  <div class="relative  w-1/2 h-80 flex flex-col items-center bg-blue-100 rounded-lg shadow">
+  <!-- Top main circle image -->
+  <div class="relative z-10 mt-4">
+    <img src="{% static 'por.png' %}" 
+         class="w-20 h-20 rounded-full shadow border-4 border-white" 
+         alt="main">
   </div>
+
+  <!-- SVG lines (from top img to bottom imgs) -->
+  <svg class="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Center of top image (x,y) to each bottom image -->
+    <line x1="50%" y1="80" x2="25%" y2="75%" stroke="black" stroke-width="2"/>
+    <line x1="50%" y1="80" x2="40%" y2="75%" stroke="black" stroke-width="2"/>
+    <line x1="50%" y1="80" x2="60%" y2="75%" stroke="black" stroke-width="2"/>
+    <line x1="50%" y1="80" x2="75%" y2="75%" stroke="black" stroke-width="2"/>
+  </svg>
+
+  <!-- Bottom row with 4 images -->
+  <div class="absolute bottom-6 w-full flex justify-around px-12">
+    <img src="{% static 'ast.png' %}" class="w-16 h-16 rounded-full shadow border-2 border-white" alt="node-1">
+    <img src="{% static 'car2.jpg' %}" class="w-16 h-16 rounded-full shadow border-2 border-white" alt="node-2">
+    <img src="{% static 'wash.png' %}" class="w-16 h-16 rounded-full shadow border-2 border-white" alt="node-3">
+    <img src="{% static 'car4.jpg' %}" class="w-16 h-16 rounded-full shadow border-2 border-white" alt="node-4">
+  </div>
+</div>
+
 
   <!-- Right Form Section -->
   <div class="w-full md:w-2/3 bg-white p-8 shadow-lg rounded">

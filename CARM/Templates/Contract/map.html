@@ -1,0 +1,52 @@
+<title>Car Tracking</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<style>
+  html, body, #map { height: 100%; margin: 0; padding: 0; }
+</style>
+{% include 'navbar.html' %}
+<h1>Real-Time Car Tracking</h1>
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Initialize map centered roughly at Coimbatore
+    var map = L.map('map').setView([11.0168, 76.9558], 12);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    var markers = {}; // Store unique markers
+    var staticMarkers = []; // For static locations
+
+    // Add static markers for Coimbatore and Ukkadam
+    var coimbatoreMarker = L.marker([11.0168, 76.9558]).addTo(map).bindPopup("TN01 H 4100 ");
+    var ukkadamMarker = L.marker([11.0026, 76.9558]).addTo(map).bindPopup("TN14 A 1414");
+    staticMarkers.push(coimbatoreMarker, ukkadamMarker);
+
+    // Fit map to show static markers initially
+    var group = L.featureGroup(staticMarkers);
+    map.fitBounds(group.getBounds().pad(0.5));
+
+    // WebSocket connection for real-time car tracking
+    var ws_scheme = window.location.protocol === "https:" ? "wss" : "ws";
+    var socket = new WebSocket('ws://192.168.0.101:8000/ws/car-locations/'); // replace with your IP
+
+    socket.onmessage = function(e) {
+        var data = JSON.parse(e.data);
+        var key = data.car_id + "_" + data.latitude + "_" + data.longitude;
+
+        if (!markers[key]) {
+            markers[key] = L.marker([data.latitude, data.longitude])
+                .addTo(map)
+                .bindPopup(data.car_name);
+
+            // Optional: automatically adjust map bounds as new markers come in
+            var allMarkers = Object.values(markers).concat(staticMarkers);
+            var bounds = L.latLngBounds(allMarkers.map(m => m.getLatLng()));
+            map.fitBounds(bounds.pad(0.2));
+        }
+    };
+});
+</script>

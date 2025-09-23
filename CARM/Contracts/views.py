@@ -8,6 +8,9 @@ from assets.models import Vehicle_listing
 from . models import Customer, Booking, invoice
 from django.utils.dateparse import parse_datetime,parse_date
 
+#map tracking
+
+
 def get_vehicle(request):
     ast_code = request.GET.get("Plate_no")
     try:
@@ -25,7 +28,8 @@ def get_customer(request):
         return JsonResponse({"custid": None})
     
 def new(request):
-    vehicle=Vehicle_listing.objects.all()
+    active_vehicles=Booking.objects.filter(Booking_Status="Active").values_list("Vehicle",flat=True)
+    vehicle = Vehicle_listing.objects.exclude(Plate_no__in=active_vehicles)
     customer=Customer.objects.all()
     last_customer=Customer.objects.order_by("id").last()
     if last_customer:
@@ -46,7 +50,10 @@ def create(request):
     if request.method=='POST':
         action=request.POST.get('action')
         doclast=Booking.objects.order_by("Docno").last()
-        docnew=int(str(doclast))+1
+        if doclast:
+            docnew=int(str(doclast))+1
+        else:
+            docnew="1001"
         docno=str(docnew)
         docdate_str=request.POST.get('docdate')
         vehicle=request.POST.get('Plate_no')

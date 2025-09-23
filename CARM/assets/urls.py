@@ -8,6 +8,7 @@ urlpatterns=[
     path('maintaince',views.maintaince,name="maintaince"),
     path('check_availability',views.check_availability,name="check_availability"),
     path("get_purchase/", views.get_purchase, name="get_purchase"),
+    path("map",views.map_view,name="map"),
 
 ]
 

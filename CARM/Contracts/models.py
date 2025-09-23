@@ -13,7 +13,7 @@ class Customer(models.Model):
 class Booking(models.Model):
     Docno=models.CharField(max_length=10,primary_key=True)
     Docdate=models.DateField()
-    Vehicle=models.CharField(max_length=50)
+    Vehicle=models.CharField(max_length=50, null=True)
     Booking_Status=models.CharField(max_length=10)
     Meter_out=models.IntegerField()
     Meter_in=models.IntegerField(null=True,blank=True)
